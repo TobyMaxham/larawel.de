@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>404 — Diese Route existiert so wenig wie Larawelz</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,600&family=JetBrains+Mono:wght@400;500;700;800&display=swap" rel="stylesheet">
+
+<link href="data:image/x-icon;base64,AAABAAEAEBAQAAEABAAoAQAAFgAAACgAAAAQAAAAIAAAAAEABAAAAAAAgAAAAAAAAAAAAAAAEAAAAAAAAAAyPTIAOEo4AHL/mAA9VD0APVI9AKW6ugAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAVVVVVVVVVVVVVVVVVVVVVVUBERERERFVVRIAAiIiAFVVECAAAAABVVUQAgAAAAFVVRAgAAAAAVVVEgAAAAABVVUQAAAAAAFVVRIiIiIiAFVVQAAAAAABVVUyIiIgAAFVVTMzAAAABFVVMzNEERERVVVVVVVVVVVVVVVVVVVVVVUAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" rel="icon" type="image/x-icon">
+
+<style>
+  :root{
+    --bg: #0d1117;
+    --bg-raised: #131a24;
+    --line: #232c3b;
+    --text: #e6edf3;
+    --text-dim: #8b98a9;
+    --laravel: #ff2d20;
+    --laravel-glow: rgba(255,45,32,.35);
+    --diff-add: #3fb950;
+    --diff-add-bg: rgba(63,185,80,.12);
+    --diff-del: #f85149;
+    --diff-del-bg: rgba(248,81,73,.12);
+  }
+  *{ box-sizing: border-box; }
+  html, body{ height: 100%; }
+  body{
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+    line-height: 1.6;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem 1rem;
+  }
+  .bg-grid{
+    position: fixed; inset: 0; z-index: -1;
+    background-image: radial-gradient(circle, #1c2431 1px, transparent 1px);
+    background-size: 26px 26px;
+    mask-image: radial-gradient(ellipse 70% 60% at 50% 40%, black 30%, transparent 100%);
+  }
+  .mono{ font-family: 'JetBrains Mono', monospace; }
+  .wrap{ max-width: 640px; width: 100%; text-align: center; }
+  .eyebrow{
+    font-family: 'JetBrains Mono', monospace;
+    font-size: .78rem; letter-spacing:.12em; text-transform:uppercase;
+    color: var(--text-dim);
+  }
+  .eyebrow .dot{ color: var(--laravel); }
+  .code{
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 800;
+    font-size: clamp(4rem, 14vw, 7rem);
+    line-height: 1;
+    color: var(--laravel);
+    text-shadow: 0 0 60px var(--laravel-glow);
+    margin: .6rem 0;
+  }
+  h1{
+    font-size: clamp(1.4rem, 3.4vw, 2rem);
+    font-weight: 800;
+    letter-spacing: -.02em;
+    margin-bottom: .6rem;
+  }
+  h1 s{ color: #ffb4ae; text-decoration-color: var(--diff-del); }
+  .sub{ color: var(--text-dim); max-width: 480px; margin: 0 auto 2rem; }
+
+  .diff-window{
+    background: var(--bg-raised);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    overflow: hidden;
+    text-align: left;
+    margin-bottom: 2rem;
+    box-shadow: 0 30px 80px -20px rgba(0,0,0,.6);
+  }
+  .diff-titlebar{
+    display:flex; align-items:center; gap:.5rem;
+    padding: .65rem 1rem;
+    background: #0f151f;
+    border-bottom: 1px solid var(--line);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: .76rem;
+    color: var(--text-dim);
+  }
+  .diff-dot{ width:9px; height:9px; border-radius:50%; }
+  .diff-titlebar .filename{ margin-left: .6rem; }
+  .diff-body{ font-family: 'JetBrains Mono', monospace; font-size: .86rem; }
+  .diff-line{
+    display:flex; gap: .8rem;
+    padding: .5rem 1.1rem;
+    white-space: pre-wrap;
+    border-left: 3px solid transparent;
+  }
+  .diff-line .gutter{ width: 1.2rem; flex-shrink:0; color: var(--text-dim); user-select:none; }
+  .diff-line.del{ background: var(--diff-del-bg); border-left-color: var(--diff-del); color: #ffb4ae; }
+  .diff-line.del .gutter{ color: var(--diff-del); }
+  .diff-line.add{ background: var(--diff-add-bg); border-left-color: var(--diff-add); color: #b6f2be; }
+  .diff-line.add .gutter{ color: var(--diff-add); }
+  .diff-line.ctx{ color: var(--text-dim); }
+
+  .btn-laravel{
+    background: var(--laravel);
+    border: none;
+    color: white;
+    font-weight: 700;
+    padding: .75rem 1.5rem;
+    border-radius: 8px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: .88rem;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: .5rem;
+    transition: transform .15s ease, box-shadow .15s ease;
+  }
+  .btn-laravel:hover{ transform: translateY(-2px); box-shadow: 0 10px 25px -8px var(--laravel-glow); color:white; }
+
+  .req-path{
+    font-family: 'JetBrains Mono', monospace;
+    font-size: .82rem;
+    color: var(--text-dim);
+    margin-top: 1.4rem;
+  }
+  .req-path span{ color: var(--laravel); }
+</style>
+</head>
+<body>
+<div class="bg-grid"></div>
+
+<div class="wrap">
+  <p class="eyebrow"><span class="dot">●</span> HTTP 404 · Route nicht gefunden</p>
+  <div class="code">404</div>
+  <h1>Diese Seite existiert genauso wenig wie <s>Larawelz</s> oder <s>Larawels</s>.</h1>
+  <p class="sub">Beides gibt's nicht. Diese Route auch nicht. Nur eins von beidem lässt sich reparieren.</p>
+
+  <div class="diff-window">
+    <div class="diff-titlebar">
+      <span class="diff-dot" style="background:#ff5f56"></span>
+      <span class="diff-dot" style="background:#ffbd2e"></span>
+      <span class="diff-dot" style="background:#27c93f"></span>
+      <span class="filename">router.resolve()</span>
+    </div>
+    <div class="diff-body py-2">
+      <div class="diff-line del"><span class="gutter">-</span> <s>Route gefunden</s></div>
+      <div class="diff-line ctx"><span class="gutter">·</span> Status: 404 Not Found</div>
+      <div class="diff-line add"><span class="gutter">+</span> Empfehlung: zurück zur Startseite</div>
+    </div>
+  </div>
+
+  <a href="/" class="btn-laravel">
+    <i class="bi bi-arrow-left"></i> Zurück zu Laravel
+  </a>
+
+  <p class="req-path">Angefragter Pfad existiert nicht. Im Gegensatz zu <span>Laravel</span>.</p>
+</div>
+
+</body>
+</html>

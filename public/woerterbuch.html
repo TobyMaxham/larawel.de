@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Laravel — Wörterbucheintrag</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;0,8..60,700;1,8..60,500&family=JetBrains+Mono:wght@400;500;700;800&family=Plus+Jakarta+Sans:wght@500;700&display=swap" rel="stylesheet">
+
+<!-- SEO -->
+<meta name="description" content="Laravel im Wörterbuch-Stil: Aussprache, Deklination, Genitiv-Erklärung und bekannte Falschschreibungen wie Larawelz und Larawels.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="canonical" href="https://larawelz.de/woerterbuch">
+
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Larawelz-Korrektur">
+<meta property="og:title" content="Laravel — Wörterbucheintrag">
+<meta property="og:description" content="Substantiv, Eigenname, kein Plural. Aussprache, Deklination und die Wahrheit über Larawelz und Larawels.">
+<meta property="og:url" content="https://larawelz.de/woerterbuch">
+<meta property="og:image" content="https://larawelz.de/assets/og-image-woerterbuch.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Laravel — Wörterbucheintrag">
+<meta property="og:locale" content="de_DE">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Laravel — Wörterbucheintrag">
+<meta name="twitter:description" content="Substantiv, Eigenname, kein Plural. Aussprache, Deklination und die Wahrheit über Larawelz und Larawels.">
+<meta name="twitter:image" content="https://larawelz.de/assets/og-image-woerterbuch.png">
+
+<link href="data:image/x-icon;base64,AAABAAEAEBAQAAEABAAoAQAAFgAAACgAAAAQAAAAIAAAAAEABAAAAAAAgAAAAAAAAAAAAAAAEAAAAAAAAAAyPTIAOEo4AHL/mAA9VD0APVI9AKW6ugAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAVVVVVVVVVVVVVVVVVVVVVVUBERERERFVVRIAAiIiAFVVECAAAAABVVUQAgAAAAFVVRAgAAAAAVVVEgAAAAABVVUQAAAAAAFVVRIiIiIiAFVVQAAAAAABVVUyIiIgAAFVVTMzAAAABFVVMzNEERERVVVVVVVVVVVVVVVVVVVVVVUAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" rel="icon" type="image/x-icon">
+
+
+<style>
+  :root{
+    --bg: #0d1117;
+    --line-dark: #232c3b;
+    --laravel: #ff2d20;
+    --laravel-glow: rgba(255,45,32,.35);
+
+    --paper: #ece5d3;
+    --paper-edge: #ddd3ba;
+    --ink: #211d16;
+    --ink-dim: #6b6252;
+    --rule: #c9bd9e;
+    --tape: rgba(255, 244, 214, .55);
+  }
+  *{ box-sizing: border-box; }
+  body{
+    background: var(--bg);
+    min-height: 100vh;
+    font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+    padding: 4rem 1rem 5rem;
+  }
+  .bg-grid{
+    position: fixed; inset: 0; z-index: -1;
+    background-image: radial-gradient(circle, #1c2431 1px, transparent 1px);
+    background-size: 26px 26px;
+    mask-image: radial-gradient(ellipse 80% 60% at 50% 20%, black 30%, transparent 100%);
+  }
+  .mono{ font-family: 'JetBrains Mono', monospace; }
+
+  .back-link{
+    display: inline-flex; align-items:center; gap:.5rem;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: .82rem;
+    color: #8b98a9;
+    text-decoration: none;
+    margin-bottom: 2rem;
+  }
+  .back-link:hover{ color: var(--laravel); }
+  .back-wrap{ max-width: 640px; margin: 0 auto; }
+
+  /* ---------- PAPER ---------- */
+  .paper-stage{
+    max-width: 640px;
+    margin: 0 auto;
+    position: relative;
+  }
+  .paper{
+    background: var(--paper);
+    color: var(--ink);
+    border-radius: 3px;
+    padding: 3rem 3rem 2.6rem;
+    transform: rotate(-1.1deg);
+    box-shadow:
+      0 2px 0 var(--paper-edge),
+      0 30px 60px -20px rgba(0,0,0,.55),
+      0 10px 20px -8px rgba(0,0,0,.4);
+    position: relative;
+  }
+  .paper::before{
+    /* subtle paper grain */
+    content: "";
+    position: absolute; inset: 0;
+    background-image:
+      repeating-linear-gradient(0deg, rgba(0,0,0,.015) 0px, transparent 1px, transparent 2px),
+      repeating-linear-gradient(90deg, rgba(0,0,0,.01) 0px, transparent 1px, transparent 2px);
+    pointer-events: none;
+    border-radius: 3px;
+  }
+  .tape{
+    position: absolute;
+    top: -14px;
+    left: 50%;
+    transform: translateX(-50%) rotate(-3deg);
+    width: 130px;
+    height: 34px;
+    background: var(--tape);
+    border: 1px solid rgba(0,0,0,.06);
+    box-shadow: 0 4px 8px rgba(0,0,0,.2);
+  }
+
+  .entry-label{
+    font-family: 'JetBrains Mono', monospace;
+    font-size: .68rem;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: var(--ink-dim);
+    border-bottom: 1px solid var(--rule);
+    padding-bottom: .8rem;
+    margin-bottom: 1.4rem;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .headword{
+    font-family: 'Source Serif 4', serif;
+    font-weight: 700;
+    font-size: 2.6rem;
+    letter-spacing: -.01em;
+    line-height: 1.1;
+  }
+  .headword .dot{ color: var(--ink-dim); font-weight: 400; }
+  .headword sup{
+    font-family: 'JetBrains Mono', monospace;
+    font-size: .9rem;
+    color: var(--laravel);
+    margin-left: .3rem;
+    font-weight: 700;
+  }
+
+  .pron-line{
+    font-family: 'JetBrains Mono', monospace;
+    font-size: .95rem;
+    color: var(--ink-dim);
+    margin-top: .4rem;
+    display: flex;
+    align-items: center;
+    gap: .7rem;
+    flex-wrap: wrap;
+  }
+  .wordclass{
+    font-family: 'Source Serif 4', serif;
+    font-style: italic;
+    color: var(--ink-dim);
+    font-size: .95rem;
+    margin-top: .3rem;
+  }
+
+  .listen-btn{
+    font-family: 'JetBrains Mono', monospace;
+    font-size: .76rem;
+    border: 1px solid var(--rule);
+    background: transparent;
+    color: var(--ink);
+    border-radius: 100px;
+    padding: .25rem .7rem;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: .35rem;
+  }
+  .listen-btn:hover{ border-color: var(--laravel); color: var(--laravel); }
+
+  .divider{ border: none; border-top: 1px solid var(--rule); margin: 1.6rem 0; }
+
+  .meaning-list{ list-style: none; padding: 0; margin: 0; }
+  .meaning-list li{
+    font-family: 'Source Serif 4', serif;
+    font-size: 1.02rem;
+    margin-bottom: 1.1rem;
+    padding-left: 1.9rem;
+    position: relative;
+  }
+  .meaning-list li .num{
+    position: absolute; left: 0; top: .05em;
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 700;
+    color: var(--laravel);
+    font-size: .95rem;
+  }
+  .meaning-list .example{
+    display: block;
+    font-style: italic;
+    color: var(--ink-dim);
+    margin-top: .35rem;
+    padding-left: .9rem;
+    border-left: 2px solid var(--rule);
+    font-size: .95rem;
+  }
+  .meaning-list .flag{
+    font-family: 'JetBrains Mono', monospace;
+    font-style: normal;
+    font-size: .68rem;
+    text-transform: uppercase;
+    letter-spacing: .06em;
+    color: var(--ink-dim);
+    border: 1px solid var(--rule);
+    border-radius: 100px;
+    padding: .1rem .5rem;
+    margin-right: .5rem;
+  }
+
+  .section-heading{
+    font-family: 'JetBrains Mono', monospace;
+    font-size: .72rem;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: var(--ink-dim);
+    margin-bottom: .8rem;
+  }
+
+  .callout{
+    background: rgba(255,45,32,.07);
+    border: 1px solid rgba(255,45,32,.28);
+    border-radius: 6px;
+    padding: 1rem 1.2rem;
+    font-family: 'Source Serif 4', serif;
+    font-size: .95rem;
+    margin: 1.4rem 0;
+  }
+  .callout strong{ color: var(--laravel); }
+
+  table.decl{
+    width: 100%;
+    border-collapse: collapse;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: .84rem;
+  }
+  table.decl th{
+    text-align: left;
+    font-weight: 700;
+    color: var(--ink-dim);
+    text-transform: uppercase;
+    font-size: .68rem;
+    letter-spacing: .06em;
+    padding: .4rem 0;
+    border-bottom: 1px solid var(--rule);
+  }
+  table.decl td{
+    padding: .45rem 0;
+    border-bottom: 1px solid rgba(0,0,0,.06);
+  }
+  table.decl td.wrong{ color: #a4392f; text-decoration: line-through; }
+
+  .misspell-row{
+    display: flex; align-items: baseline; gap: .6rem;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: .88rem;
+    margin-bottom: .5rem;
+  }
+  .misspell-row .bad{ text-decoration: line-through; color: #a4392f; }
+  .misspell-row .why{ color: var(--ink-dim); font-family: 'Source Serif 4', serif; font-style: italic; font-size: .88rem; }
+
+  .see-also{
+    font-family: 'Source Serif 4', serif;
+    font-size: .92rem;
+    color: var(--ink-dim);
+    margin-top: 1.6rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--rule);
+  }
+  .see-also a{ color: var(--ink); text-decoration: underline; text-decoration-color: var(--rule); }
+
+  .stamp-corner{
+    position: absolute;
+    bottom: 14px;
+    right: 18px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: .62rem;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    color: rgba(33,29,22,.35);
+    border: 1px solid rgba(33,29,22,.25);
+    border-radius: 4px;
+    padding: .2rem .5rem;
+    transform: rotate(-4deg);
+  }
+
+  @media (max-width: 560px){
+    .paper{ padding: 2.2rem 1.6rem 2rem; }
+    .headword{ font-size: 2rem; }
+  }
+</style>
+</head>
+<body>
+<div class="bg-grid"></div>
+
+<div class="back-wrap">
+  <a href="/" class="back-link"><i class="bi bi-arrow-left"></i> zurück zur Korrektur-Seite</a>
+</div>
+
+<div class="paper-stage">
+  <div class="tape"></div>
+  <div class="paper">
+
+    <div class="entry-label">
+      <span>Wörterbuch · IT-Begriffe</span>
+      <span>Eintrag 0001</span>
+    </div>
+
+    <div class="headword">La<span class="dot">·</span>ra<span class="dot">·</span>vel<sup>1</sup></div>
+    <div class="pron-line">
+      [ˈlærəvɛl]
+      <button type="button" id="listen-btn" class="listen-btn"><i class="bi bi-volume-up"></i> anhören</button>
+    </div>
+    <div class="wordclass">Substantiv, n. · Eigenname · kein Plural</div>
+
+    <hr class="divider">
+
+    <ol class="meaning-list">
+      <li>
+        <span class="num">1</span>
+        PHP-Framework für Webanwendungen; bekannt für ausdrucksstarke Syntax, Eloquent ORM und eine sehr geduldige Community.
+        <span class="example">"Ich hab das noch schnell in Laravel gebaut."</span>
+      </li>
+      <li>
+        <span class="num">2</span>
+        <span class="flag">ugs., fälschlich</span>Nicht zu verwechseln mit erfundenen Nebenformen ohne lexikalischen Beleg.
+        <span class="example">"Läuft doch alles über Laravel, oder?" — richtig. Alles andere nicht.</span>
+      </li>
+    </ol>
+
+    <div class="callout">
+      <strong>Verwechslungsgefahr:</strong> Der Genitiv Singular lautet korrekt <em>"des Laravels"</em>. Das erklärt vermutlich, warum manche im Kopf bei <em>"Larawels"</em> landen — der Fehler ist also nicht ganz grundlos, nur eben am falschen Kasus hängengeblieben. Als Grundform bleibt es trotzdem: Laravel.
+    </div>
+
+    <div class="section-heading">Deklination · Singular</div>
+    <table class="decl">
+      <tr><th>Kasus</th><th>Form</th></tr>
+      <tr><td>Nominativ</td><td>Laravel</td></tr>
+      <tr><td>Genitiv</td><td>Laravels</td></tr>
+      <tr><td>Dativ</td><td>Laravel</td></tr>
+      <tr><td>Akkusativ</td><td>Laravel</td></tr>
+    </table>
+
+    <div class="section-heading mt-4">Bekannte Falschschreibungen</div>
+    <div class="misspell-row"><span class="bad">Larawelz</span><span class="why">— keine Deklinationsform, kein Dialekt, einfach falsch</span></div>
+    <div class="misspell-row"><span class="bad">Larawels</span><span class="why">— siehe Verwechslungsgefahr oben, trotzdem keine Grundform</span></div>
+    <div class="misspell-row"><span class="bad">Larawel</span><span class="why">— v→w vertauscht, klingt fast richtig, ist es aber nicht</span></div>
+    <div class="misspell-row"><span class="bad">Larvel</span><span class="why">— vermutlich Tippfehler, präventiv gelistet</span></div>
+
+    <div class="see-also">
+      Siehe auch: <a href="/">Korrektur-Startseite</a>
+    </div>
+
+    <div class="stamp-corner">geprüft</div>
+  </div>
+</div>
+
+<script>
+(function(){
+  var btn = document.getElementById('listen-btn');
+  if (!btn || !('speechSynthesis' in window)) { if(btn) btn.disabled = true; return; }
+  var cached = [];
+  function load(){ cached = window.speechSynthesis.getVoices() || []; }
+  load();
+  if ('onvoiceschanged' in window.speechSynthesis) window.speechSynthesis.onvoiceschanged = load;
+  function pick(){
+    var voices = cached.length ? cached : window.speechSynthesis.getVoices();
+    if (!voices.length) return null;
+    var en = voices.filter(function(v){ return /^en/i.test(v.lang); });
+    var pool = en.length ? en : voices;
+    var pref = [/Google US English/i, /Natural/i, /Online/i, /Samantha/i];
+    for (var i=0;i<pref.length;i++){ var m = pool.find(function(v){ return pref[i].test(v.name); }); if (m) return m; }
+    return pool[0];
+  }
+  btn.addEventListener('click', function(){
+    window.speechSynthesis.cancel();
+    var u = new SpeechSynthesisUtterance('Laravel');
+    var v = pick();
+    if (v) { u.voice = v; u.lang = v.lang; } else { u.lang = 'en-US'; }
+    u.rate = 1; u.pitch = 1;
+    window.speechSynthesis.speak(u);
+  });
+})();
+</script>
+
+</body>
+</html>

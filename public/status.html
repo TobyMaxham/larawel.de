@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Status — Framework-Namensgebung</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700;800&display=swap" rel="stylesheet">
+
+
+<!-- SEO -->
+<meta name="description" content="Live-Systemstatus: Laravel operational, Larawelz und Larawels weiterhin down.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="canonical" href="https://status.larawelz.de/">
+
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Larawelz-Korrektur">
+<meta property="og:title" content="Systemstatus · Framework-Namensgebung">
+<meta property="og:description" content="Teilweiser Systemausfall: Laravel läuft stabil, Larawelz und Larawels weiterhin nicht.">
+<meta property="og:url" content="https://status.larawelz.de/">
+<meta property="og:image" content="https://larawelz.de/assets/og-image-status.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Systemstatus · Framework-Namensgebung">
+<meta property="og:locale" content="de_DE">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Systemstatus · Framework-Namensgebung">
+<meta name="twitter:description" content="Teilweiser Systemausfall: Laravel läuft stabil, Larawelz und Larawels weiterhin nicht.">
+<meta name="twitter:image" content="https://larawelz.de/assets/og-image-status.png">
+
+<link href="data:image/x-icon;base64,AAABAAEAEBAQAAEABAAoAQAAFgAAACgAAAAQAAAAIAAAAAEABAAAAAAAgAAAAAAAAAAAAAAAEAAAAAAAAAAyPTIAOEo4AHL/mAA9VD0APVI9AKW6ugAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAVVVVVVVVVVVVVVVVVVVVVVUBERERERFVVRIAAiIiAFVVECAAAAABVVUQAgAAAAFVVRAgAAAAAVVVEgAAAAABVVUQAAAAAAFVVRIiIiIiAFVVQAAAAAABVVUyIiIgAAFVVTMzAAAABFVVMzNEERERVVVVVVVVVVVVVVVVVVVVVVUAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" rel="icon" type="image/x-icon">
+
+<style>
+  :root{
+    --bg: #0d1117;
+    --bg-raised: #131a24;
+    --bg-card: #161d29;
+    --line: #232c3b;
+    --text: #e6edf3;
+    --text-dim: #8b98a9;
+    --laravel: #ff2d20;
+
+    --ok: #3fb950;
+    --ok-bg: rgba(63,185,80,.12);
+    --warn: #ffb224;
+    --warn-bg: rgba(255,178,36,.12);
+    --down: #f85149;
+    --down-bg: rgba(248,81,73,.12);
+  }
+  *{ box-sizing: border-box; }
+  body{
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+    line-height: 1.6;
+    padding-bottom: 4rem;
+  }
+  .mono{ font-family: 'JetBrains Mono', monospace; }
+  .wrap{ max-width: 780px; margin: 0 auto; padding: 0 1.2rem; }
+
+  .back-link{
+    display: inline-flex; align-items:center; gap:.5rem;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: .82rem;
+    color: var(--text-dim);
+    text-decoration: none;
+    margin: 2rem 0 1.5rem;
+  }
+  .back-link:hover{ color: var(--laravel); }
+
+  /* ---------- BANNER ---------- */
+  .banner{
+    border-radius: 12px;
+    padding: 1.4rem 1.6rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    background: var(--warn-bg);
+    border: 1px solid rgba(255,178,36,.35);
+    margin-bottom: 2.4rem;
+  }
+  .banner .icon{
+    width: 42px; height: 42px; border-radius: 50%;
+    background: var(--warn);
+    color: #1a1300;
+    display:flex; align-items:center; justify-content:center;
+    font-size: 1.3rem;
+    flex-shrink: 0;
+  }
+  .banner h1{ font-size: 1.05rem; font-weight: 800; margin: 0; }
+  .banner p{ margin: .15rem 0 0; color: var(--text-dim); font-size: .88rem; }
+
+  .page-title{
+    font-size: 1.5rem;
+    font-weight: 800;
+    letter-spacing: -.01em;
+    margin-bottom: .3rem;
+  }
+  .page-sub{ color: var(--text-dim); font-size: .92rem; margin-bottom: 2.2rem; }
+
+  /* ---------- COMPONENTS ---------- */
+  .component{
+    background: var(--bg-card);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 1.2rem 1.4rem;
+    margin-bottom: 1rem;
+  }
+  .component-top{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: .6rem;
+    margin-bottom: .9rem;
+  }
+  .component-name{
+    display: flex;
+    align-items: center;
+    gap: .6rem;
+    font-weight: 700;
+    font-size: .98rem;
+  }
+  .status-dot{ width: 9px; height: 9px; border-radius: 50%; flex-shrink: 0; }
+  .status-dot.ok{ background: var(--ok); box-shadow: 0 0 10px rgba(63,185,80,.6); }
+  .status-dot.warn{ background: var(--warn); box-shadow: 0 0 10px rgba(255,178,36,.6); }
+  .status-dot.down{ background: var(--down); box-shadow: 0 0 10px rgba(248,81,73,.6); }
+
+  .status-label{
+    font-family: 'JetBrains Mono', monospace;
+    font-size: .74rem;
+    letter-spacing: .04em;
+    text-transform: uppercase;
+    padding: .22rem .6rem;
+    border-radius: 100px;
+  }
+  .status-label.ok{ background: var(--ok-bg); color: var(--ok); border: 1px solid rgba(63,185,80,.35); }
+  .status-label.warn{ background: var(--warn-bg); color: var(--warn); border: 1px solid rgba(255,178,36,.35); }
+  .status-label.down{ background: var(--down-bg); color: #ffb4ae; border: 1px solid rgba(248,81,73,.35); }
+
+  .uptime-strip{
+    display: flex;
+    gap: 2px;
+    height: 26px;
+  }
+  .uptime-strip .bar{
+    flex: 1;
+    border-radius: 2px;
+    min-width: 2px;
+  }
+  .uptime-strip .bar.ok{ background: var(--ok); opacity: .85; }
+  .uptime-strip .bar.warn{ background: var(--warn); opacity: .85; }
+  .uptime-strip .bar.down{ background: var(--down); opacity: .9; }
+
+  .uptime-meta{
+    display: flex;
+    justify-content: space-between;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: .72rem;
+    color: var(--text-dim);
+    margin-top: .5rem;
+  }
+  .uptime-pct{ font-weight: 700; }
+  .uptime-pct.ok{ color: var(--ok); }
+  .uptime-pct.warn{ color: var(--warn); }
+  .uptime-pct.down{ color: #ffb4ae; }
+
+  /* ---------- INCIDENT HISTORY ---------- */
+  .section-heading{
+    font-family: 'JetBrains Mono', monospace;
+    font-size: .74rem;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    margin: 2.4rem 0 1rem;
+  }
+  .incident{
+    border-left: 2px solid var(--line);
+    padding: 0 0 1.4rem 1.2rem;
+    position: relative;
+    margin-left: .3rem;
+  }
+  .incident::before{
+    content: "";
+    position: absolute;
+    left: -5px; top: 2px;
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: var(--down);
+  }
+  .incident.resolved::before{ background: var(--ok); }
+  .incident-date{
+    font-family: 'JetBrains Mono', monospace;
+    font-size: .72rem;
+    color: var(--text-dim);
+    margin-bottom: .3rem;
+  }
+  .incident-title{ font-weight: 700; font-size: .95rem; margin-bottom: .3rem; }
+  .incident-body{ color: var(--text-dim); font-size: .88rem; }
+  .incident-badge{
+    font-family: 'JetBrains Mono', monospace;
+    font-size: .66rem;
+    text-transform: uppercase;
+    letter-spacing: .05em;
+    padding: .12rem .5rem;
+    border-radius: 100px;
+    background: var(--down-bg);
+    color: #ffb4ae;
+    border: 1px solid rgba(248,81,73,.35);
+    margin-right: .4rem;
+  }
+  .incident-badge.resolved{ background: var(--ok-bg); color: var(--ok); border-color: rgba(63,185,80,.35); }
+
+  /* ---------- SUBSCRIBE ---------- */
+  .subscribe-box{
+    margin-top: 2.4rem;
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 1.4rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    flex-wrap: wrap;
+    background: var(--bg-card);
+  }
+  .subscribe-text{ font-size: .88rem; color: var(--text-dim); }
+  .subscribe-btn{
+    font-family: 'JetBrains Mono', monospace;
+    font-size: .82rem;
+    background: var(--line);
+    color: var(--text-dim);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: .6rem 1.1rem;
+    cursor: not-allowed;
+  }
+
+  footer{
+    text-align: center;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: .74rem;
+    color: var(--text-dim);
+    margin-top: 3rem;
+  }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <a href="https://larawelz.de" class="back-link"><i class="bi bi-arrow-left"></i> zurück zur Korrektur-Seite</a>
+
+  <div class="page-title">Systemstatus · Framework-Namensgebung</div>
+  <div class="page-sub">Live-Überwachung der korrekten und inkorrekten Bezeichnung eines PHP-Frameworks.</div>
+
+  <div class="banner">
+    <div class="icon"><i class="bi bi-exclamation-triangle-fill"></i></div>
+    <div>
+      <h1>Teilweiser Systemausfall</h1>
+      <p>3 von 3 überwachten Falschschreibungen funktionieren nicht wie vorgesehen.</p>
+    </div>
+  </div>
+
+  <div class="section-heading">Komponenten</div>
+
+  <!-- LARAVEL -->
+  <div class="component">
+    <div class="component-top">
+      <div class="component-name"><span class="status-dot ok"></span> Laravel</div>
+      <span class="status-label ok">Operational</span>
+    </div>
+    <div class="uptime-strip" id="strip-laravel"></div>
+    <div class="uptime-meta">
+      <span>vor 90 Tagen</span>
+      <span class="uptime-pct ok">99.98 % Uptime</span>
+      <span>heute</span>
+    </div>
+  </div>
+
+  <!-- LARAWELZ -->
+  <div class="component">
+    <div class="component-top">
+      <div class="component-name"><span class="status-dot down"></span> Larawelz</div>
+      <span class="status-label down">Major Outage</span>
+    </div>
+    <div class="uptime-strip" id="strip-larawelz"></div>
+    <div class="uptime-meta">
+      <span>vor 90 Tagen</span>
+      <span class="uptime-pct down">11.2 % Uptime</span>
+      <span>heute</span>
+    </div>
+  </div>
+
+  <!-- LARAWELS -->
+  <div class="component">
+    <div class="component-top">
+      <div class="component-name"><span class="status-dot warn"></span> Larawels</div>
+      <span class="status-label warn">Degraded Performance</span>
+    </div>
+    <div class="uptime-strip" id="strip-larawels"></div>
+    <div class="uptime-meta">
+      <span>vor 90 Tagen</span>
+      <span class="uptime-pct warn">34.6 % Uptime</span>
+      <span>heute</span>
+    </div>
+  </div>
+
+  <!-- LARAWEL -->
+  <div class="component">
+    <div class="component-top">
+      <div class="component-name"><span class="status-dot down"></span> Larawel</div>
+      <span class="status-label down">Major Outage</span>
+    </div>
+    <div class="uptime-strip" id="strip-larawel"></div>
+    <div class="uptime-meta">
+      <span>vor 90 Tagen</span>
+      <span class="uptime-pct down">18.9 % Uptime</span>
+      <span>heute</span>
+    </div>
+  </div>
+
+  <div class="section-heading">Incident-Historie</div>
+
+  <div class="incident resolved">
+    <div class="incident-date">Heute, 09:04</div>
+    <div class="incident-title"><span class="incident-badge resolved">Resolved</span>Falscher Branch-Name im Daily-Chat referenziert</div>
+    <div class="incident-body">Ein Kollege fragte nach einem "larawels"-Branch. Vorfall wurde direkt im Chat behoben. Zeit bis zur Lösung: 0 Tage Reue.</div>
+  </div>
+
+  <div class="incident resolved">
+    <div class="incident-date">Vorgestern, 14:32</div>
+    <div class="incident-title"><span class="incident-badge resolved">Resolved</span>Branch <code class="mono">feature/larawelz-invoice-export</code> erstellt</div>
+    <div class="incident-body">Branch wurde identifiziert, umbenannt zu <code class="mono">feature/laravel-invoice-export</code>. Root Cause: unbekannt, vermutlich Gewohnheit.</div>
+  </div>
+
+  <div class="incident">
+    <div class="incident-date">Laufend seit mehreren Wochen</div>
+    <div class="incident-title"><span class="incident-badge">Investigating</span>Ursprung der Begriffe "Larawelz" / "Larawels"</div>
+    <div class="incident-body">Herkunft weiterhin ungeklärt. Zwei unabhängige Falschschreibungen ohne erkennbaren gemeinsamen Ursprung. Untersuchung dauert an.</div>
+  </div>
+
+  <div class="subscribe-box">
+    <div class="subscribe-text">Incident-Updates abonnieren, sobald sich was ändert.</div>
+    <button class="subscribe-btn" disabled title="Bringt nichts, sie lesen eh nicht mit.">Abonnieren</button>
+  </div>
+
+  <footer><span id="footer-host">status.larawelz.de</span> · aktualisiert automatisch, glaubt aber trotzdem niemand</footer>
+</div>
+
+<script>
+(function(){
+  function seededRandom(seed){
+    var x = Math.sin(seed) * 10000;
+    return x - Math.floor(x);
+  }
+
+  function buildStrip(elId, days, mostlyState, hiccupChance, hiccupState, seedOffset){
+    var el = document.getElementById(elId);
+    if (!el) return;
+    var html = '';
+    for (var i = 0; i < days; i++){
+      var r = seededRandom(i * 7.13 + seedOffset);
+      var state = mostlyState;
+      if (r < hiccupChance) state = hiccupState;
+      html += '<div class="bar ' + state + '" title="Tag ' + (days - i) + '"></div>';
+    }
+    el.innerHTML = html;
+  }
+
+  buildStrip('strip-laravel', 90, 'ok', 0.01, 'warn', 1);
+  buildStrip('strip-larawelz', 90, 'down', 0.15, 'warn', 2);
+  buildStrip('strip-larawels', 90, 'warn', 0.35, 'down', 3);
+  buildStrip('strip-larawel', 90, 'down', 0.2, 'warn', 5);
+
+  var footerHost = document.getElementById('footer-host');
+  if (footerHost && window.location.hostname) {
+    footerHost.textContent = window.location.hostname;
+  }
+})();
+</script>
+
+</body>
+</html>
